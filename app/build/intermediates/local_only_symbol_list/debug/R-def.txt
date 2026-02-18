@@ -1,0 +1,27 @@
+R_DEF: Internal format may change without notice
+local
+color board_background
+color button_background
+color game_background
+color ic_launcher_background
+color text_color
+color white
+drawable button_background
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+id bannerAd
+id boardView
+id btn_play
+id btn_settings
+id movesText
+id resetButton
+id scoreText
+layout activity_game
+layout activity_main
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+string moves
+string reset
+string score
+style Theme.AppCompat.Light.DarkActionBar

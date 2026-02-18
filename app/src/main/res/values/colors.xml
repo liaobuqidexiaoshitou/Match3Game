@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="game_background">#2C3E50</color>
+    <color name="board_background">#34495E</color>
+    <color name="button_background">#3498DB</color>
+    <color name="text_color">#ECF0F1</color>
+    <color name="ic_launcher_background">#3DDC84</color>
+</resources>
