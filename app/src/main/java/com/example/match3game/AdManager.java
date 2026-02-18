@@ -51,6 +51,7 @@ public class AdManager {
     public void loadBannerAd(AdView adView) {
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.setAdUnitId(BANNER_AD_UNIT_ID);
+        adView.setAdSize(AdSize.BANNER);
         adView.loadAd(adRequest);
     }
 
