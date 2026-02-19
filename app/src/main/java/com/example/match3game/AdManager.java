@@ -15,6 +15,7 @@ import com.google.android.gms.ads.RequestConfiguration;
 public class AdManager {
     private static final String TAG = "AdManager";
     private static boolean isInitialized = false;
+    private static boolean isLoading = false;
 
     // TODO: 替换为你的 AdMob 广告位 ID
     private static final String BANNER_AD_UNIT_ID = "YOUR_BANNER_AD_UNIT_ID";
@@ -45,11 +46,22 @@ public class AdManager {
             MobileAds.initialize(activity, initializationStatus -> {
                 Log.d(TAG, "Ad SDK initialized successfully");
                 isInitialized = true;
+                // 初始化完成后，如果正在等待加载广告，则加载
+                if (isLoading && bannerAd != null) {
+                    loadBannerAd(bannerAd);
+                }
             });
         } catch (Exception e) {
             Log.e(TAG, "Failed to initialize Ad SDK", e);
             isInitialized = true; // 即使失败也设为 true，避免重复初始化
         }
+    }
+
+    /**
+     * 检查是否已初始化
+     */
+    public boolean isInitialized() {
+        return isInitialized;
     }
 
     /**
@@ -59,6 +71,13 @@ public class AdManager {
         this.bannerAd = adView;
 
         try {
+            if (!isInitialized) {
+                Log.d(TAG, "Ad SDK not initialized, waiting...");
+                isLoading = true;
+                // 如果未初始化，等待初始化完成
+                return;
+            }
+
             AdRequest adRequest = new AdRequest.Builder().build();
             adView.setAdUnitId(BANNER_AD_UNIT_ID);
             adView.setAdSize(AdSize.BANNER);

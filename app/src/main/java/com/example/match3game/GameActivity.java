@@ -23,55 +23,67 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        adManager = new AdManager(this);
+        try {
+            adManager = new AdManager(this);
 
-        boardView = findViewById(R.id.boardView);
-        scoreText = findViewById(R.id.scoreText);
-        movesText = findViewById(R.id.movesText);
-        resetButton = findViewById(R.id.resetButton);
+            boardView = findViewById(R.id.boardView);
+            scoreText = findViewById(R.id.scoreText);
+            movesText = findViewById(R.id.movesText);
+            resetButton = findViewById(R.id.resetButton);
 
-        AdView bannerAd = findViewById(R.id.bannerAd);
+            AdView bannerAd = findViewById(R.id.bannerAd);
 
-        // 延迟加载广告，确保 SDK 初始化完成
-        boardView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (bannerAd != null) {
-                    adManager.loadBannerAd(bannerAd);
+            // 确保布局已完成，然后加载广告
+            if (bannerAd != null) {
+                adManager.loadBannerAd(bannerAd);
+            }
+
+            updateScore();
+            updateMoves();
+
+            resetButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    resetGame();
                 }
-            }
-        }, 500);
-
-        updateScore();
-        updateMoves();
-
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetGame();
-            }
-        });
+            });
+        } catch (Exception e) {
+            Log.e("GameActivity", "Failed to initialize GameActivity", e);
+            finish();
+        }
     }
 
     private void resetGame() {
-        if (boardView != null) {
-            boardView.resetGame();
-            updateScore();
-            updateMoves();
+        try {
+            if (boardView != null) {
+                boardView.resetGame();
+                updateScore();
+                updateMoves();
+            }
+        } catch (Exception e) {
+            Log.e("GameActivity", "Failed to reset game", e);
         }
     }
 
     private void updateScore() {
-        if (boardView != null && scoreText != null) {
-            int score = boardView.getScore();
-            scoreText.setText("分数: " + score);
+        try {
+            if (boardView != null && scoreText != null) {
+                int score = boardView.getScore();
+                scoreText.setText("分数: " + score);
+            }
+        } catch (Exception e) {
+            Log.e("GameActivity", "Failed to update score", e);
         }
     }
 
     private void updateMoves() {
-        if (boardView != null && movesText != null) {
-            int moves = boardView.getMoves();
-            movesText.setText("步数: " + moves);
+        try {
+            if (boardView != null && movesText != null) {
+                int moves = boardView.getMoves();
+                movesText.setText("步数: " + moves);
+            }
+        } catch (Exception e) {
+            Log.e("GameActivity", "Failed to update moves", e);
         }
     }
 
