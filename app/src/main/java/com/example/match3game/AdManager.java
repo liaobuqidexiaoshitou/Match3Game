@@ -8,6 +8,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.InterstitialAdLoadCallback;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.RequestConfiguration;
 
 /**
