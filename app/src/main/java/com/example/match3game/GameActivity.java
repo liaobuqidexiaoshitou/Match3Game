@@ -31,7 +31,16 @@ public class GameActivity extends AppCompatActivity {
         resetButton = findViewById(R.id.resetButton);
 
         AdView bannerAd = findViewById(R.id.bannerAd);
-        adManager.loadBannerAd(bannerAd);
+
+        // 延迟加载广告，确保 SDK 初始化完成
+        boardView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (bannerAd != null) {
+                    adManager.loadBannerAd(bannerAd);
+                }
+            }
+        }, 500);
 
         updateScore();
         updateMoves();
@@ -45,19 +54,25 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void resetGame() {
-        boardView.resetGame();
-        updateScore();
-        updateMoves();
+        if (boardView != null) {
+            boardView.resetGame();
+            updateScore();
+            updateMoves();
+        }
     }
 
     private void updateScore() {
-        int score = boardView.getScore();
-        scoreText.setText("分数: " + score);
+        if (boardView != null && scoreText != null) {
+            int score = boardView.getScore();
+            scoreText.setText("分数: " + score);
+        }
     }
 
     private void updateMoves() {
-        int moves = boardView.getMoves();
-        movesText.setText("步数: " + moves);
+        if (boardView != null && movesText != null) {
+            int moves = boardView.getMoves();
+            movesText.setText("步数: " + moves);
+        }
     }
 
     @Override

@@ -14,38 +14,58 @@ import com.google.android.gms.ads.RequestConfiguration;
  */
 public class AdManager {
     private static final String TAG = "AdManager";
+    private static boolean isInitialized = false;
 
     // TODO: 替换为你的 AdMob 广告位 ID
     private static final String BANNER_AD_UNIT_ID = "YOUR_BANNER_AD_UNIT_ID";
 
     private Activity activity;
+    private AdView bannerAd;
 
     public AdManager(Activity activity) {
         this.activity = activity;
+        initialize();
     }
 
     /**
      * 初始化广告 SDK
      */
     public void initialize() {
-        // 启用测试广告
-        String testDeviceIds = "TEST_EMULATOR";
-        RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
-                .setTestDeviceIds(java.util.Arrays.asList(testDeviceIds))
-                .build();
+        if (isInitialized) {
+            return;
+        }
 
-        MobileAds.initialize(activity, initializationStatus -> {
-            Log.d(TAG, "Ad SDK initialized");
-        });
+        try {
+            // 启用测试广告
+            String testDeviceIds = "TEST_EMULATOR";
+            RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
+                    .setTestDeviceIds(java.util.Arrays.asList(testDeviceIds))
+                    .build();
+
+            MobileAds.initialize(activity, initializationStatus -> {
+                Log.d(TAG, "Ad SDK initialized successfully");
+                isInitialized = true;
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to initialize Ad SDK", e);
+            isInitialized = true; // 即使失败也设为 true，避免重复初始化
+        }
     }
 
     /**
      * 加载横幅广告
      */
     public void loadBannerAd(AdView adView) {
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.setAdUnitId(BANNER_AD_UNIT_ID);
-        adView.setAdSize(AdSize.BANNER);
-        adView.loadAd(adRequest);
+        this.bannerAd = adView;
+
+        try {
+            AdRequest adRequest = new AdRequest.Builder().build();
+            adView.setAdUnitId(BANNER_AD_UNIT_ID);
+            adView.setAdSize(AdSize.BANNER);
+            adView.loadAd(adRequest);
+            Log.d(TAG, "Banner ad loaded");
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to load banner ad", e);
+        }
     }
 }

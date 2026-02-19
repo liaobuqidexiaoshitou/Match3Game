@@ -17,7 +17,6 @@ public class BoardView extends View {
     private static final int GEM_COLORS = 7;
 
     private GameEngine gameEngine;
-    private AdManager adManager;
 
     private float gemSize;
     private float padding;
@@ -63,9 +62,6 @@ public class BoardView extends View {
             }
         });
 
-        // 初始化广告
-        adManager = new AdManager((MainActivity) context);
-
         // 资源尺寸
         float screenWidth = context.getResources().getDisplayMetrics().widthPixels;
         float screenHeight = context.getResources().getDisplayMetrics().heightPixels;
@@ -106,9 +102,6 @@ public class BoardView extends View {
                 public void run() {
                     gameEngine.removeMatches();
                     invalidate();
-
-                    if (gameEngine.isGameOver()) {
-                    }
                 }
             }, 300);
         }
