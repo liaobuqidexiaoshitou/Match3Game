@@ -108,7 +108,6 @@ public class BoardView extends View {
                     invalidate();
 
                     if (gameEngine.isGameOver()) {
-                        adManager.showAdOnGameOver();
                     }
                 }
             }, 300);

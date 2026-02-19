@@ -3,8 +3,8 @@ package com.example.match3game;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import com.google.android.gms.ads.AdView;
 import android.widget.TextView;
+import com.google.android.gms.ads.AdView;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
@@ -33,8 +33,6 @@ public class GameActivity extends AppCompatActivity {
         AdView bannerAd = findViewById(R.id.bannerAd);
         adManager.loadBannerAd(bannerAd);
 
-        adManager.showAdOnGameStart();
-
         updateScore();
         updateMoves();
 
@@ -50,7 +48,6 @@ public class GameActivity extends AppCompatActivity {
         boardView.resetGame();
         updateScore();
         updateMoves();
-        adManager.showAdOnInterval(boardView.getMoves(), 10);
     }
 
     private void updateScore() {
@@ -64,14 +61,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        adManager.loadInterstitialAd();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
-        adManager.showAdOnGameOver();
+        adManager = null;
     }
 }
